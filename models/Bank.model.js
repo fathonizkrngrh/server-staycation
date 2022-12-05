@@ -1,16 +1,20 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const bankSchema = new Schema({
-  nameBank: {
+  bankName: {
     type: String,
     required: true,
   },
-  nomorRekening: {
+  rekeningNumber: {
     type: Number,
     required: true,
   },
   userName: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
     type: String,
     required: true,
   },

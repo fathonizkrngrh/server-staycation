@@ -3,6 +3,9 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const methodOverride = require("method-override");
+const session = require("express-session");
+const flash = require("connect-flash");
 // import mongoose
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/staycation", {
@@ -12,15 +15,17 @@ mongoose.connect("mongodb://localhost:27017/staycation", {
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 // admin endpoint
-var adminRouter = require("./routes/admin");
+var adminRouter = require("./routes/admin.router");
 
 var app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.set("trust proxy", 1); // trust first proxy
 
 app.use(logger("dev"));
+app.use(methodOverride("_method"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -29,6 +34,15 @@ app.use(
   "/sb-admin-2",
   express.static(path.join(__dirname, "node_modules/startbootstrap-sb-admin-2"))
 );
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { masAge: 6000 },
+  })
+);
+app.use(flash());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
