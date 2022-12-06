@@ -28,18 +28,12 @@ const itemSchema = new Schema({
     type: String,
     required: true,
   },
-  imageId: {
+  categoryId: {
     type: ObjectId,
     ref: "Category",
   },
-  imageId: {
-    type: ObjectId,
-    ref: "Image",
-  },
-  fasilityId: {
-    type: ObjectId,
-    ref: "Fasility",
-  },
+  imageId: [{ type: ObjectId, ref: "Image" }],
+  fasilityId: [{ type: ObjectId, ref: "Fasility" }],
   activityId: {
     type: ObjectId,
     ref: "Activity",

@@ -1,5 +1,7 @@
 const Category = require("../models/Category.model");
 const Bank = require("../models/Bank.model");
+const Item = require("../models/Item.model");
+const Image = require("../models/Image.model");
 const fs = require("fs-extra");
 const path = require("path");
 
@@ -19,7 +21,6 @@ module.exports = {
         status: alertStatus,
       };
 
-      console.log(category);
       res.render("admin/category/viewCategory", {
         category,
         alert,
@@ -172,10 +173,62 @@ module.exports = {
       res.redirect("/admin/bank");
     }
   },
-  viewItem: (req, res) => {
-    res.render("admin/item/viewItem", {
-      title: "Staycation | Item",
-    });
+  viewItem: async (req, res) => {
+    try {
+      const item = await Item.find();
+      const category = await Category.find();
+
+      const alertMessage = req.flash("alertMessage");
+      const alertStatus = req.flash("alertStatus");
+      const alert = {
+        message: alertMessage,
+        status: alertStatus,
+      };
+
+      res.render("admin/item/viewItem", {
+        item,
+        category,
+        alert,
+        title: "Staycation | Item",
+      });
+    } catch (error) {
+      res.redirect("admin/item");
+    }
+  },
+  addItem: async (req, res) => {
+    try {
+      const { title, price, city, categoryId, description } = req.body;
+
+      if (req.files.length > 0) {
+        const category = await Category.findOne({ _id: categoryId });
+
+        const newItem = {
+          title,
+          price,
+          city,
+          categoryId: category._id,
+          description,
+        };
+        const item = await Item.create(newItem);
+        category.itemId.push({ _id: item._id });
+        await category.save();
+        console.log(req.files);
+        for (let i = 0; i < req.files.length; i++) {
+          const imageSave = await Image.create({
+            imageUrl: `images/${req.files[i].filename}`,
+          });
+          item.imageId.push({ _id: imageSave._id });
+          await item.save();
+        }
+        req.flash("alertMessage", "success add item");
+        req.flash("alertStatus", "success");
+        res.redirect("/admin/item");
+      }
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/item");
+    }
   },
   viewBooking: (req, res) => {
     res.render("admin/booking/viewBooking", {
