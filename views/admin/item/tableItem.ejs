@@ -16,9 +16,57 @@
               <th>Price</th>
               <th>Country</th>
               <th>City</th>
+              <th>Image</th>
               <th>Action</th>
             </tr>
           </thead>
+          <tbody>
+            <% for(let i = 0; i < item.length; i++){ %>
+            <tr>
+              <td><%- i+1 %></td>
+              <td><%- item[i].title %></td>
+              <td>Rp. <%- item[i].price %></td>
+              <td><%- item[i].country %></td>
+              <td><%- item[i].city %></td>
+              <td>
+                <% for (let j = 0; j < item[i].imageId.length; j++){ %>
+                <img
+                  src="http://localhost:3000/<%= image[j].imageUrl %>"
+                  alt="imageId"
+                  height="20px"
+                  width="20px"
+                />
+                <% } %>
+              </td>
+              <td>
+                <form
+                  action="/admin/item/<%- item[i].id%>?_method=DELETE"
+                  method="POST"
+                >
+                  <a
+                    href="javascript:void()"
+                    type="button"
+                    class="btn btn-warning btn-circle btn-sm button-update"
+                    data-id="<%= item[i].id %>"
+                    data-title="<%= item[i].title %>"
+                    data-price="<%= item[i].price %>"
+                    data-country="<%= item[i].country %>"
+                    data-city="<%= item[i].city %>"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <button
+                    class="btn btn-danger btn-circle btn-sm"
+                    type="submit"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+
+            <% }%>
+          </tbody>
         </table>
       </div>
     </div>

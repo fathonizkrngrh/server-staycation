@@ -177,6 +177,7 @@ module.exports = {
     try {
       const item = await Item.find();
       const category = await Category.find();
+      const image = await Image.find();
 
       const alertMessage = req.flash("alertMessage");
       const alertStatus = req.flash("alertStatus");
@@ -188,6 +189,7 @@ module.exports = {
       res.render("admin/item/viewItem", {
         item,
         category,
+        image,
         alert,
         title: "Staycation | Item",
       });
