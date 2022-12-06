@@ -22,10 +22,15 @@ const itemSchema = new Schema({
   },
   isPopular: {
     type: Boolean,
+    default: false,
   },
   description: {
     type: String,
     required: true,
+  },
+  imageId: {
+    type: ObjectId,
+    ref: "Category",
   },
   imageId: {
     type: ObjectId,

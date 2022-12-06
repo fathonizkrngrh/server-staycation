@@ -132,7 +132,7 @@ module.exports = {
 
         await bank.save();
 
-        req.flash("alertMessage", "success update Bank");
+        req.flash("alertMessage", `success update Bank ${bankName}`);
         req.flash("alertStatus", "success");
         res.redirect("/admin/bank");
       } else {
@@ -145,7 +145,7 @@ module.exports = {
 
         await bank.save();
 
-        req.flash("alertMessage", "success update Bank");
+        req.flash("alertMessage", "success update Bank" + bankName);
         req.flash("alertStatus", "success");
         res.redirect("/admin/bank");
       }

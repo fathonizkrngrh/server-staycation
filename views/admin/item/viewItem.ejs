@@ -21,9 +21,32 @@
         <h1 class="h3 mb-4 text-gray-800">Item</h1>
         <!-- Akhir Heading -->
 
-        <!-- Table -->
-        <%- include('tableItem.ejs') %>
-        <!-- AkhirTable -->
+        <!-- nav tabs -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="tab"
+              id="show-item-tab"
+              href="#show-item"
+              role="tab"
+              >Show Item</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="tab"
+              id="add-item-tab"
+              href="#add-item"
+              role="tab"
+              >Add Item</a
+            >
+          </li>
+        </ul>
+        <div class="tab-content">
+          <%- include('tableItem.ejs') %> <%- include('addItem.ejs') %>
+        </div>
       </div>
       <!-- /.container-fluid -->
     </div>

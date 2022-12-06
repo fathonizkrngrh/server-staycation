@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { ObjectId } = mongoose.Schema;
 
 const facilitySchema = new Schema({
   name: {
@@ -13,6 +14,10 @@ const facilitySchema = new Schema({
   imageUrl: {
     type: String,
     required: true,
+  },
+  itemId: {
+    type: ObjectId,
+    ref: "Item",
   },
 });
 
