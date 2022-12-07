@@ -66,6 +66,20 @@
         </ul>
         <div class="tab-content"><%- include('showImageItem.ejs') %></div>
 
+        <% } else { %>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="tab"
+              id="edit-item-tab"
+              href="#edit-item"
+              role="tab"
+              >Edit Item</a
+            >
+          </li>
+        </ul>
+        <div class="tab-content"><%- include('editItem.ejs') %></div>
         <% } %>
       </div>
       <!-- /.container-fluid -->

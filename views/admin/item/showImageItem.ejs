@@ -1,22 +1,22 @@
-<div id="show-image" class="tab-pane fade in fade">
+<div id="show-image" class="tab-pane fade show active">
   <!-- Table -->
   <div class="row">
-    <% for ( let x=0, x < item.imageId.length ; x++) { %>
-    <div class="card shadow mb-4 mt-t">
-      <div class="card-body">
-        <div class="table-responsive">
-          <h1>Image</h1>
-
-          <img
-            src="http://localhost:3000/<%= item.imageId[x].imageUrl %>"
-            style="width: 100%; display: block"
-            alt="image"
-          />
+    <% for ( let x=0; x < item.imageId.length ; x++) { %>
+    <div class="col-md-4">
+      <div class="card shadow mb-4 mt-t">
+        <div class="card-body">
+          <div class="table-responsive">
+            <img
+              src="http://localhost:3000/<%= item.imageId[x].imageUrl %>"
+              style="width: 100%; display: block"
+              alt="image"
+            />
+          </div>
         </div>
       </div>
     </div>
     <% } %>
   </div>
-  <a href="admin/item" class="btn btn-warning">Back</a>
+  <a href="/admin/item" class="btn btn-warning">Back</a>
   <!-- AkhirTable -->
 </div>

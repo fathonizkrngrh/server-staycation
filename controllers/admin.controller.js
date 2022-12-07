@@ -198,6 +198,8 @@ module.exports = {
       });
     } catch (error) {
       res.redirect("admin/item");
+
+      console.log(error);
     }
   },
   showImageItem: async (req, res) => {
@@ -207,7 +209,6 @@ module.exports = {
         path: "imageId",
         select: "id imageUrl",
       });
-      console.log(item.imageId);
 
       const alertMessage = req.flash("alertMessage");
       const alertStatus = req.flash("alertStatus");
@@ -241,7 +242,7 @@ module.exports = {
           price,
           city,
           categoryId: category._id,
-          description,
+          description: description || "Tidak ada deskripsi",
         };
         const item = await Item.create(newItem);
         category.itemId.push({ _id: item._id });
@@ -262,6 +263,134 @@ module.exports = {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
       res.redirect("/admin/item");
+    }
+  },
+  showEditItem: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const item = await Item.findOne({ _id: id })
+        .populate({
+          path: "imageId",
+          select: "id imageUrl",
+        })
+        .populate({ path: "categoryId", select: "id name" });
+      const category = await Category.find();
+
+      const alertMessage = req.flash("alertMessage");
+      const alertStatus = req.flash("alertStatus");
+      const alert = {
+        message: alertMessage,
+        status: alertStatus,
+      };
+
+      res.render("admin/item/viewItem", {
+        item,
+        alert,
+        category,
+        title: "Staycation | Edit Item",
+        action: "edit",
+      });
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/item");
+      console.log(error);
+    }
+  },
+  editItem: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { title, price, city, categoryId, description } = req.body;
+      const item = await Item.findOne({ _id: id })
+        .populate({
+          path: "imageId",
+          select: "id imageUrl",
+        })
+        .populate({ path: "categoryId", select: "id name" });
+      console.log(item.imageId.length);
+
+      if (req.files.length == item.imageId.length) {
+        for (let i = 0; i < item.imageId.length; i++) {
+          let imageUpdate = await Image.findOne({ _id: item.imageId[i]._id });
+          console.log(imageUpdate.imageUrl);
+          console.log(req.files.length);
+          await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
+          imageUpdate.imageUrl = `images/${req.files[i].filename}`;
+          console.log("file", i, req.files[i]);
+          await imageUpdate.save();
+        }
+        item.title = title;
+        item.price = price;
+        item.city = city;
+        item.categoryId = categoryId;
+        item.description = description;
+        await item.save();
+
+        req.flash("alertMessage", "success update item");
+        req.flash("alertStatus", "success");
+        res.redirect("/admin/item");
+      } else if (req.files.length != item.imageId.length) {
+        for (let i = 0; i < item.imageId.length; i++) {
+          let imageUpdate = await Image.findOne({ _id: item.imageId[i]._id });
+          await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
+          item.imageId[i] = undefined;
+          await imageUpdate.save();
+        }
+
+        for (let j = 0; j < req.files.length; j++) {
+          const imageSave = await Image.create({
+            imageUrl: `images/${req.files[j].filename}`,
+          });
+          item.imageId.push({ _id: imageSave._id });
+          await item.save();
+        }
+        item.title = title;
+        item.price = price;
+        item.city = city;
+        item.categoryId = categoryId;
+        item.description = description;
+        await item.save();
+
+        req.flash("alertMessage", "success update item");
+        req.flash("alertStatus", "success");
+        res.redirect("/admin/item");
+      } else {
+        item.title = title;
+        item.price = price;
+        item.city = city;
+        item.categoryId = categoryId;
+        item.description = description;
+
+        await item.save();
+        req.flash("alertMessage", "success update item");
+        req.flash("alertStatus", "success");
+        res.redirect("/admin/item");
+      }
+      // if (req.files.length > 0) {
+      //   for (let i = 0; i < item.imageId.length; i++) {
+      //     const imageUpdate = await Image.findOne({ _id: item.imageId[i]._id });
+      //     console.log(imageUpdate.imageUrl);
+      //     await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
+      //     imageUpdate.imageUrl = `images/${req.files[i].filename}`;
+      //     console.log(req.files[0]);
+      //     await imageUpdate.save();
+      //   }
+      //   item.title = title;
+      //   item.price = price;
+      //   item.city = city;
+      //   item.categoryId = categoryId;
+      //   item.description = description;
+      //   await item.save();
+
+      //   req.flash("alertMessage", "success update item");
+      //   req.flash("alertStatus", "success");
+      //   res.redirect("/admin/item");
+      // }
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/item");
+      console.log(error);
     }
   },
   viewBooking: async (req, res) => {
