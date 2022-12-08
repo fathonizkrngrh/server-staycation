@@ -257,6 +257,7 @@ module.exports = {
         }
         req.flash("alertMessage", "success add item");
         req.flash("alertStatus", "success");
+
         res.redirect("/admin/item");
       }
     } catch (error) {
@@ -307,16 +308,12 @@ module.exports = {
           select: "id imageUrl",
         })
         .populate({ path: "categoryId", select: "id name" });
-      console.log(item.imageId.length);
 
       if (req.files.length == item.imageId.length) {
         for (let i = 0; i < item.imageId.length; i++) {
           let imageUpdate = await Image.findOne({ _id: item.imageId[i]._id });
-          console.log(imageUpdate.imageUrl);
-          console.log(req.files.length);
           await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
           imageUpdate.imageUrl = `images/${req.files[i].filename}`;
-          console.log("file", i, req.files[i]);
           await imageUpdate.save();
         }
         item.title = title;
@@ -366,31 +363,37 @@ module.exports = {
         req.flash("alertStatus", "success");
         res.redirect("/admin/item");
       }
-      // if (req.files.length > 0) {
-      //   for (let i = 0; i < item.imageId.length; i++) {
-      //     const imageUpdate = await Image.findOne({ _id: item.imageId[i]._id });
-      //     console.log(imageUpdate.imageUrl);
-      //     await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
-      //     imageUpdate.imageUrl = `images/${req.files[i].filename}`;
-      //     console.log(req.files[0]);
-      //     await imageUpdate.save();
-      //   }
-      //   item.title = title;
-      //   item.price = price;
-      //   item.city = city;
-      //   item.categoryId = categoryId;
-      //   item.description = description;
-      //   await item.save();
-
-      //   req.flash("alertMessage", "success update item");
-      //   req.flash("alertStatus", "success");
-      //   res.redirect("/admin/item");
-      // }
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
       res.redirect("/admin/item");
       console.log(error);
+    }
+  },
+  deleteItem: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const item = await Item.findOne({ _id: id }).populate("imageId");
+      for (let i = 0; i < item.imageId.length; i++) {
+        Image.findOne({ _id: item.imageId[i]._id })
+          .then(async (image) => {
+            await fs.unlink(path.join(`public/${image.imageUrl}`));
+            image.remove();
+          })
+          .catch((error) => {
+            req.flash("alertMessage", `${error.message}`);
+            req.flash("alertStatus", "danger");
+            res.redirect("/admin/item");
+          });
+      }
+      await item.remove();
+      req.flash("alertMessage", "success delete Item");
+      req.flash("alertStatus", "success");
+      res.redirect("/admin/item");
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/item");
     }
   },
   viewBooking: async (req, res) => {
