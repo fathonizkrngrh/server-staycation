@@ -33,7 +33,7 @@ const itemSchema = new Schema({
     ref: "Category",
   },
   imageId: [{ type: ObjectId, ref: "Image" }],
-  fasilityId: [{ type: ObjectId, ref: "Fasility" }],
+  facilityId: [{ type: ObjectId, ref: "Fasility" }],
   activityId: {
     type: ObjectId,
     ref: "Activity",

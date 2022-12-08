@@ -15,7 +15,7 @@ const facilitySchema = new Schema({
     type: String,
     required: true,
   },
-  itemId: [{ type: ObjectId, ref: "Item" }],
+  itemId: { type: ObjectId, ref: "Item" },
 });
 
 module.exports = mongoose.model("Facility", facilitySchema);
