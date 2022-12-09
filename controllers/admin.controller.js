@@ -6,6 +6,8 @@ const Facility = require("../models/Facility.model");
 const fs = require("fs-extra");
 const path = require("path");
 
+const categoryServicesResponse = require("../services/category.service");
+
 module.exports = {
   viewDashboard: async (req, res) => {
     res.render("admin/dashboard/viewDashboard", {
@@ -14,35 +16,19 @@ module.exports = {
   },
   viewCategory: async (req, res) => {
     try {
-      const category = await Category.find();
-      const alertMessage = req.flash("alertMessage");
-      const alertStatus = req.flash("alertStatus");
-      const alert = {
-        message: alertMessage,
-        status: alertStatus,
-      };
-
-      res.render("admin/category/viewCategory", {
-        category,
-        alert,
-        title: "Staycation | Category",
-      });
-    } catch (error) {
-      res.redirect("/admin/category");
+      const adminServiceResponse = await categoryServicesResponse.view(req);
+      console.log(adminServiceResponse);
+      return res.render("admin/category/viewCategory", adminServiceResponse);
+    } catch (err) {
+      return res.redirect("/admin/category");
     }
   },
   addCategory: async (req, res) => {
     try {
-      const { name } = req.body;
-      await Category.create({ name });
-
-      req.flash("alertMessage", "success add category");
-      req.flash("alertStatus", "success");
-      res.redirect("/admin/category");
-    } catch (error) {
-      req.flash("alertMessage", `${error.message}`);
-      req.flash("alertStatus", "danger");
-      res.redirect("/admin/category");
+      const adminServiceResponse = await categoryServicesResponse.add(req);
+      return res.redirect("/admin/category", adminServiceResponse);
+    } catch (err) {
+      return res.redirect("/admin/category");
     }
   },
   editCategory: async (req, res) => {
