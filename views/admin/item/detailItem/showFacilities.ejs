@@ -1,4 +1,4 @@
-<div id="show-facility" class="tab-pane fade show active" role="tabpanel">
+<div id="show-facility" class="tab-pane fade show active">
   <!-- Table -->
   <div class="card shadow mb-4 mt-t">
     <div class="card-body">
@@ -44,6 +44,7 @@
             <div>
               <input type="text" value="<%= itemId %>" name="itemId" hidden />
               <button type="submit" class="btn btn-primary">Save</button>
+              <a href="/admin/item" class="btn btn-warning">Back</a>
             </div>
           </form>
         </div>
@@ -64,7 +65,48 @@
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody>
+                <% for(let i = 0; i < facility.length; i++){ %>
+                <tr>
+                  <td><%- i+1 %></td>
+                  <td><%- facility[i].name %></td>
+                  <td><%- facility[i].qty %></td>
+                  <td>
+                    <img
+                      src="http://localhost:3000/<%- facility[i].imageUrl %>"
+                      alt="imageUrl"
+                      height="50px"
+                      width="50px"
+                    />
+                  </td>
+                  <td>
+                    <form
+                      action="/admin/facility/<%- facility[i].id%>?_method=DELETE"
+                      method="POST"
+                    >
+                      <a
+                        href="javascript:void()"
+                        type="button"
+                        class="btn btn-warning btn-circle btn-sm button-update"
+                        data-id="<%= facility[i].id %>"
+                        data-facilityname="<%= facility[i].facilityName %>"
+                        data-rekening="<%= facility[i].rekeningNumber %>"
+                        data-username="<%= facility[i].userName %>"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <button
+                        class="btn btn-danger btn-circle btn-sm"
+                        type="submit"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+
+                <% }%>
+              </tbody>
             </table>
           </div>
         </div>

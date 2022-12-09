@@ -400,6 +400,8 @@ module.exports = {
   viewDetailItem: async (req, res) => {
     const { itemId } = req.params;
     try {
+      const facility = await Facility.find({ itemId: itemId });
+
       const alertMessage = req.flash("alertMessage");
       const alertStatus = req.flash("alertStatus");
       const alert = {
@@ -410,6 +412,7 @@ module.exports = {
       res.render("admin/item/detailItem/viewDetailItem", {
         alert,
         itemId,
+        facility,
         title: "Staycation | Detail Item",
         action: "view",
       });
@@ -436,6 +439,7 @@ module.exports = {
         itemId,
         imageUrl: `images/${req.file.filename}`,
       });
+
       const item = await Item.findOne({ _id: itemId });
       item.facilityId.push({ _id: facility._id });
       await item.save();
@@ -447,6 +451,41 @@ module.exports = {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
       res.redirect(`/admin/item/show-detail-item/${itemId}`);
+    }
+  },
+  editFacility: async (req, res) => {
+    try {
+      const { id, name, qty } = req.body;
+      const facility = await Facility.findOne({ _id: id });
+
+      if (req.file == undefined) {
+        facility.facilityName = facilityName;
+        facility.rekeningNumber = rekeningNumber;
+        facility.userName = userName;
+
+        await facility.save();
+
+        req.flash("alertMessage", `success update facility ${facilityName}`);
+        req.flash("alertStatus", "success");
+        res.redirect("/admin/facility");
+      } else {
+        await fs.unlink(path.join(`public/${facility.imageUrl}`));
+
+        facility.facilityName = facilityName;
+        facility.rekeningNumber = rekeningNumber;
+        facility.userName = userName;
+        facility.imageUrl = `images/${req.file.filename}`;
+
+        await facility.save();
+
+        req.flash("alertMessage", "success update facility" + facilityName);
+        req.flash("alertStatus", "success");
+        res.redirect("/admin/facility");
+      }
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/facility");
     }
   },
   viewBooking: async (req, res) => {
