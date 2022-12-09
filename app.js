@@ -13,10 +13,6 @@ mongoose.connect("mongodb://localhost:27017/staycation", {
   useNewUrlParser: true,
 });
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-// admin endpoint
-
 var app = express();
 
 // view engine setup
