@@ -1,6 +1,4 @@
 const Item = require("../models/Item.model");
-const Image = require("../models/Image.model");
-const Category = require("../models/Category.model");
 const Facility = require("../models/Facility.model");
 const fs = require("fs-extra");
 const path = require("path");
