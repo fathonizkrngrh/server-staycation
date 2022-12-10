@@ -2,6 +2,7 @@ const router = require("express").Router();
 const categoryController = require("../controllers/category.controller");
 const bankController = require("../controllers/bank.controller");
 const itemController = require("../controllers/item.controller");
+const detailItemController = require("../controllers/detailItem.controller");
 const { upload, uploadMultiple } = require("../middleware/multer");
 
 router.get("/dashboard", categoryController.viewDashboard);
@@ -28,12 +29,15 @@ router.put("/item/:id", uploadMultiple, itemController.editItem);
 router.delete("/item/:id/delete", itemController.deleteItem);
 
 // Endpoint Detail Item
-router.get("/item/show-detail-item/:itemId", categoryController.viewDetailItem);
-router.post("/item/add/facility", upload, categoryController.addFacility);
+router.get(
+  "/item/show-detail-item/:itemId",
+  detailItemController.viewDetailItem
+);
+router.post("/item/add/facility", upload, detailItemController.addFacility);
 router.put(
   "/item/edit-facility/:itemId",
   upload,
-  categoryController.editFacility
+  detailItemController.editFacility
 );
 
 router.get("/booking", categoryController.viewBooking);
