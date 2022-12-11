@@ -2,6 +2,7 @@ const router = require("express").Router();
 const categoryController = require("../controllers/category.controller");
 const bankController = require("../controllers/bank.controller");
 const itemController = require("../controllers/item.controller");
+const bookingController = require("../controllers/booking.controller");
 const detailItemController = require("../controllers/detailItem.controller");
 const { upload, uploadMultiple } = require("../middleware/multer");
 

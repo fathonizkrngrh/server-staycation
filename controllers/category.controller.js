@@ -41,9 +41,4 @@ module.exports = {
       return res.redirect("/admin/category");
     }
   },
-  viewBooking: async (req, res) => {
-    res.render("admin/booking/viewBooking", {
-      title: "Staycation | Booking",
-    });
-  },
 };
