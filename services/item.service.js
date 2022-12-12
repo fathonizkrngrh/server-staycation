@@ -136,7 +136,6 @@ module.exports = {
         .populate({ path: "categoryId", select: "id name" });
 
       if (req.files.length == item.imageId.length) {
-        console.log("masuk 1");
         for (let i = 0; i < item.imageId.length; i++) {
           let imageUpdate = await Image.findOne({ _id: item.imageId[i]._id });
           await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
@@ -156,7 +155,6 @@ module.exports = {
         req.files.length != item.imageId.length &&
         req.files.length > 0
       ) {
-        console.log("masuk 2");
         for (let i = 0; i < item.imageId.length; i++) {
           let imageUpdate = await Image.findOne({ _id: item.imageId[i]._id });
           await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
