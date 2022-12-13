@@ -151,7 +151,10 @@ module.exports = {
 
         req.flash("alertMessage", "success update item");
         req.flash("alertStatus", "success");
-      } else if (req.files.length != item.imageId.length) {
+      } else if (
+        req.files.length != item.imageId.length &&
+        req.files.length > 0
+      ) {
         for (let i = 0; i < item.imageId.length; i++) {
           let imageUpdate = await Image.findOne({ _id: item.imageId[i]._id });
           await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
