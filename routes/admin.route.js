@@ -40,7 +40,11 @@ router.put(
   upload,
   detailItemController.editFacility
 );
+router.delete(
+  "/item/:itemId/facility/:id",
+  detailItemController.deleteFacility
+);
 
-router.get("/booking", categoryController.viewBooking);
+router.get("/booking", bookingController.viewBooking);
 
 module.exports = router;

@@ -35,4 +35,14 @@ module.exports = {
       return res.redirect("/admin/facility");
     }
   },
+  deleteFacility: async (req, res) => {
+    const { itemId } = req.params;
+    try {
+      const adminServiceResponse =
+        await detailItemServiceResponse.deleteFacility(req);
+      return res.redirect(`/admin/item/show-detail-item/${itemId}`);
+    } catch (err) {
+      return res.redirect(`/admin/item/show-detail-item/${itemId}`);
+    }
+  },
 };
