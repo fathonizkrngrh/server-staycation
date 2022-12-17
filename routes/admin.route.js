@@ -34,6 +34,7 @@ router.get(
   "/item/show-detail-item/:itemId",
   detailItemController.viewDetailItem
 );
+// Facility
 router.post("/item/add/facility", upload, detailItemController.addFacility);
 router.put(
   "/item/edit-facility/:itemId",
@@ -43,6 +44,17 @@ router.put(
 router.delete(
   "/item/:itemId/facility/:id",
   detailItemController.deleteFacility
+);
+// Activity
+router.post("/item/add/activity", upload, detailItemController.addActivity);
+router.put(
+  "/item/edit-activity/:itemId",
+  upload,
+  detailItemController.editActivity
+);
+router.delete(
+  "/item/:itemId/activity/:id",
+  detailItemController.deleteActivity
 );
 
 router.get("/booking", bookingController.viewBooking);

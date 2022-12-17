@@ -45,4 +45,39 @@ module.exports = {
       return res.redirect(`/admin/item/show-detail-item/${itemId}`);
     }
   },
+
+  // Activity
+
+  addActivity: async (req, res) => {
+    const adminServiceResponse = await detailItemServiceResponse.addActivity(
+      req
+    );
+    const itemId = await adminServiceResponse.itemId;
+    try {
+      return res.render(
+        `/admin/item/show-detail-item/${itemId}`,
+        adminServiceResponse
+      );
+    } catch (err) {
+      return res.redirect(`/admin/item/show-detail-item/${itemId}`);
+    }
+  },
+  editActivity: async (req, res) => {
+    try {
+      await detailItemServiceResponse.editActivity(req);
+      return res.redirect("/admin/Activity");
+    } catch (err) {
+      return res.redirect("/admin/Activity");
+    }
+  },
+  deleteActivity: async (req, res) => {
+    const { itemId } = req.params;
+    try {
+      const adminServiceResponse =
+        await detailItemServiceResponse.deleteActivity(req);
+      return res.redirect(`/admin/item/show-detail-item/${itemId}`);
+    } catch (err) {
+      return res.redirect(`/admin/item/show-detail-item/${itemId}`);
+    }
+  },
 };

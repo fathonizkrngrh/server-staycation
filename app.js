@@ -9,7 +9,7 @@ const flash = require("connect-flash");
 const routes = require("./routes/index");
 // import mongoose
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/staycation", {
+mongoose.connect("mongodb://127.0.0.1/staycation", {
   useNewUrlParser: true,
 });
 
