@@ -28,7 +28,8 @@ module.exports = {
         action: "view",
       };
     } catch (error) {
-      return res.status(error.code).json(error);
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
     }
   },
   addFacility: async (req, res) => {
@@ -55,7 +56,8 @@ module.exports = {
 
       return { itemId };
     } catch (error) {
-      return res.status(error.code).json(error);
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
     }
   },
   editFacility: async (req) => {
@@ -111,7 +113,7 @@ module.exports = {
   },
 
   // Activity
-  addActivity: async (req) => {
+  addActivity: async (req, res) => {
     const { name, type, itemId } = req.body;
     try {
       if (!req.file) {
@@ -135,7 +137,8 @@ module.exports = {
 
       return { itemId };
     } catch (error) {
-      return res.status(error.code).json(error);
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
     }
   },
   editActivity: async (req) => {

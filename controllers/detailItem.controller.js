@@ -4,6 +4,7 @@ module.exports = {
   viewDetailItem: async (req, res) => {
     const adminServiceResponse = await detailItemServiceResponse.view(req);
     const itemId = await adminServiceResponse.itemId;
+    console.log(itemId);
     try {
       return res.render(
         "admin/item/detailItem/viewDetailItem",
@@ -19,7 +20,7 @@ module.exports = {
     );
     const itemId = await adminServiceResponse.itemId;
     try {
-      return res.render(
+      return res.redirect(
         `/admin/item/show-detail-item/${itemId}`,
         adminServiceResponse
       );
@@ -49,12 +50,12 @@ module.exports = {
   // Activity
 
   addActivity: async (req, res) => {
-    const adminServiceResponse = await detailItemServiceResponse.addActivity(
-      req
-    );
-    const itemId = await adminServiceResponse.itemId;
+    const itemId = req.params;
     try {
-      return res.render(
+      const adminServiceResponse = await detailItemServiceResponse.addActivity(
+        req
+      );
+      return res.redirect(
         `/admin/item/show-detail-item/${itemId}`,
         adminServiceResponse
       );
