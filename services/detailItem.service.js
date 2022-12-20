@@ -28,11 +28,12 @@ module.exports = {
         action: "view",
       };
     } catch (error) {
+      console.log(error);
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
     }
   },
-  addFacility: async (req, res) => {
+  addFacility: async (req) => {
     const { name, qty, itemId } = req.body;
     try {
       if (!req.file) {

@@ -34,10 +34,12 @@ const itemSchema = new Schema({
   },
   imageId: [{ type: ObjectId, ref: "Image" }],
   facilityId: [{ type: ObjectId, ref: "Facility" }],
-  activityId: {
-    type: ObjectId,
-    ref: "Activity",
-  },
+  activityId: [
+    {
+      type: ObjectId,
+      ref: "Activity",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Item", itemSchema);

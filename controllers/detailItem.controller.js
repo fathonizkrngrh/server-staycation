@@ -3,7 +3,8 @@ const detailItemServiceResponse = require("../services/detailItem.service");
 module.exports = {
   viewDetailItem: async (req, res) => {
     const adminServiceResponse = await detailItemServiceResponse.view(req);
-    const itemId = await adminServiceResponse.itemId;
+    console.log(adminServiceResponse);
+    const { itemId } = req.params;
     console.log(itemId);
     try {
       return res.render(
@@ -11,6 +12,7 @@ module.exports = {
         adminServiceResponse
       );
     } catch (err) {
+      console.log(err);
       return res.redirect(`admin/item/detailItem/viewDetailItem/${itemId}`);
     }
   },
@@ -50,15 +52,11 @@ module.exports = {
   // Activity
 
   addActivity: async (req, res) => {
-    const itemId = req.params;
+    const { itemId } = req.body;
+    console.log(itemId);
     try {
-      const adminServiceResponse = await detailItemServiceResponse.addActivity(
-        req
-      );
-      return res.redirect(
-        `/admin/item/show-detail-item/${itemId}`,
-        adminServiceResponse
-      );
+      await detailItemServiceResponse.addActivity(req);
+      return res.redirect(`/admin/item/show-detail-item/${itemId}`);
     } catch (err) {
       return res.redirect(`/admin/item/show-detail-item/${itemId}`);
     }
@@ -78,6 +76,7 @@ module.exports = {
         await detailItemServiceResponse.deleteActivity(req);
       return res.redirect(`/admin/item/show-detail-item/${itemId}`);
     } catch (err) {
+      console.log(err);
       return res.redirect(`/admin/item/show-detail-item/${itemId}`);
     }
   },
