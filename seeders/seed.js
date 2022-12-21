@@ -2,7 +2,7 @@ var seeder = require("mongoose-seed");
 var mongoose = require("mongoose");
 
 // Connect to MongoDB via Mongoose
-seeder.connect("mongodb://localhost:27017/staycation", function () {
+seeder.connect("mongodb://127.0.0.1:27017/db_staycation", function () {
   // Load Mongoose models
   seeder.loadModels([
     "./models/Category.model",

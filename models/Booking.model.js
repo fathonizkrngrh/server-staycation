@@ -47,7 +47,7 @@ const bookingSchema = new Schema({
     ref: "Bank",
   },
   payments: {
-    paymentProof: {
+    proofPayment: {
       type: String,
       required: true,
     },
