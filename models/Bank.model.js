@@ -10,7 +10,7 @@ const bankSchema = new Schema({
     type: Number,
     required: true,
   },
-  userName: {
+  name: {
     type: String,
     required: true,
   },

@@ -160,6 +160,7 @@ module.exports = {
           await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
           item.imageId[i] = undefined;
           await imageUpdate.save();
+
         }
 
         for (let j = 0; j < req.files.length; j++) {
@@ -194,7 +195,7 @@ module.exports = {
       req.flash("alertStatus", "danger");
     }
   },
-  delete: async (req) => {
+  delete: async (req, res) => {
     try {
       const { id } = req.params;
       const item = await Item.findOne({ _id: id }).populate("imageId");

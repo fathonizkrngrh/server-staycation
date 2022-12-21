@@ -11,6 +11,10 @@ const itemSchema = new Schema({
     type: Number,
     required: true,
   },
+  sumBooking: {
+    type: Number,
+    required: true,
+  },
   country: {
     type: String,
     required: true,
