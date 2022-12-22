@@ -1,13 +1,20 @@
 const router = require("express").Router();
+const adminAuthController = require("../controllers/adminAuth.controller");
 const categoryController = require("../controllers/category.controller");
 const bankController = require("../controllers/bank.controller");
 const itemController = require("../controllers/item.controller");
 const bookingController = require("../controllers/booking.controller");
 const detailItemController = require("../controllers/detailItem.controller");
 const { upload, uploadMultiple } = require("../middleware/multer");
+const auth = require("../middleware/auth").isLoggedin;
 
 router.get("/dashboard", categoryController.viewDashboard);
-router.get("/", categoryController.viewDashboard);
+
+// Endpoint Sign In admin
+router.get("/signin", adminAuthController.viewSignIn);
+router.get("/", adminAuthController.redirect);
+router.post("/signin", adminAuthController.actionSignin);
+router.use(auth);
 
 // Endpoint Category
 router.get("/category", categoryController.viewCategory);
