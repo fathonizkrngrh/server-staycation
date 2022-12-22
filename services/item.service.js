@@ -28,6 +28,7 @@ module.exports = {
         alert,
         title,
         action: "view",
+        user: req.session.user,
       };
     } catch (error) {
       return res.status(error.code).json(error);
@@ -54,6 +55,7 @@ module.exports = {
         alert,
         title,
         action: "show image",
+        user: req.session.user,
       };
     } catch (error) {
       return res.status(error.code).json(error);
@@ -160,7 +162,6 @@ module.exports = {
           await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
           item.imageId[i] = undefined;
           await imageUpdate.save();
-
         }
 
         for (let j = 0; j < req.files.length; j++) {

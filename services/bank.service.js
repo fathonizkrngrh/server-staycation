@@ -15,7 +15,7 @@ module.exports = {
       };
       const title = "Staycation | Bank";
 
-      return { bank, alert, title };
+      return { bank, alert, title, user: req.session.user };
     } catch (error) {
       return res.status(error.code).json(error);
     }

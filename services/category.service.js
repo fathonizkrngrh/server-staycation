@@ -12,7 +12,7 @@ module.exports = {
       };
       const title = "Staycation | Category";
 
-      return { category, alert, title };
+      return { category, alert, title, user: req.session.user };
     } catch (error) {
       return res.status(error.code).json(error);
     }

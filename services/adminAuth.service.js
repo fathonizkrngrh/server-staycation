@@ -38,4 +38,7 @@ module.exports = {
       req.flash("alertStatus", "danger");
     }
   },
+  signout: async (req) => {
+    req.session.Destroy();
+  },
 };

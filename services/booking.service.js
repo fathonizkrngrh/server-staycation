@@ -10,7 +10,7 @@ module.exports = {
         status: alertStatus,
       };
       const title = "Staycation | Detail Item";
-      return { title, alert };
+      return { title, alert, user: req.session.user };
     } catch (err) {
       return res.status(err.code).json(err);
     }

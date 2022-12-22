@@ -26,6 +26,7 @@ module.exports = {
         activity,
         title,
         action: "view",
+        user: req.session.user,
       };
     } catch (error) {
       console.log(error);

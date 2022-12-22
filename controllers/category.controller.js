@@ -4,11 +4,6 @@ const Image = require("../models/Image.model");
 const categoryServicesResponse = require("../services/category.service");
 
 module.exports = {
-  viewDashboard: async (req, res) => {
-    res.render("admin/dashboard/viewDashboard", {
-      title: "Staycation | Dashboard",
-    });
-  },
   viewCategory: async (req, res) => {
     try {
       const adminServiceResponse = await categoryServicesResponse.view(req);

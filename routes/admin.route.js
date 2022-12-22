@@ -8,12 +8,12 @@ const detailItemController = require("../controllers/detailItem.controller");
 const { upload, uploadMultiple } = require("../middleware/multer");
 const auth = require("../middleware/auth").isLoggedin;
 
-router.get("/dashboard", categoryController.viewDashboard);
+router.get("/dashboard", adminAuthController.viewDashboard);
 
 // Endpoint Sign In admin
 router.get("/signin", adminAuthController.viewSignIn);
-router.get("/", adminAuthController.redirect);
 router.post("/signin", adminAuthController.actionSignin);
+router.get("/signout", adminAuthController.actionSignout);
 router.use(auth);
 
 // Endpoint Category
