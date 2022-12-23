@@ -26,37 +26,38 @@
           <% for(let i = 0; i < booking.length; i++){ %>
           <tr>
             <td><%- i+1 %></td>
-            <td><%- booking[i].bookingName %></td>
-            <td><%- booking[i].rekeningNumber %></td>
-            <td><%- booking[i].userName %></td>
             <td>
-              <img
-                src="http://localhost:3000/<%- booking[i].imageUrl %>"
-                alt="imageUrl"
-                height="70px"
-                width="70px"
-              />
+              <%- booking[i].bookingStartDate.toLocaleString().split(',')[0] %>
+              <b>s/d</b> <%-
+              booking[i].bookingEndDate.toLocaleString().split(',')[0] %>
             </td>
+            <td><%- booking[i].itemId.title %></td>
             <td>
-              <form
-                action="/admin/booking/<%- booking[i].id%>?_method=DELETE"
-                method="POST"
+              <%- booking[i].memberId.firstName %> <%-
+              booking[i].memberId.lastName %>
+            </td>
+            <td><%- booking[i].bankId.bankName %></td>
+
+            <% if(booking[i].payments.status == 'Rejected'){ %>
+            <td>
+              <b class="text-danger"><%- booking[i].payments.status %></b>
+            </td>
+            <% } else if(booking[i].payments.status == 'Accepted'){ %>
+            <td>
+              <b class="text-success"><%- booking[i].payments.status %></b>
+            </td>
+            <% } else { %>
+            <td><b><%- booking[i].payments.status %></b></td>
+
+            <% } %>
+            <td>
+              <a
+                href="/admin/booking/<%= booking[i]._id %>"
+                type="button"
+                class="btn btn-success btn-circle btn-sm button-update"
               >
-                <a
-                  href="javascript:void()"
-                  type="button"
-                  class="btn btn-warning btn-circle btn-sm button-update"
-                  data-id="<%= booking[i].id %>"
-                  data-bookingname="<%= booking[i].bookingName %>"
-                  data-rekening="<%= booking[i].rekeningNumber %>"
-                  data-username="<%= booking[i].userName %>"
-                >
-                  <i class="fas fa-edit"></i>
-                </a>
-                <button class="btn btn-danger btn-circle btn-sm" type="submit">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </form>
+                <i class="fas fa-eye"></i>
+              </a>
             </td>
           </tr>
 

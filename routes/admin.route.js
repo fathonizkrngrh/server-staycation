@@ -65,5 +65,8 @@ router.delete(
 );
 
 router.get("/booking", bookingController.viewBooking);
+router.get("/booking/:id", bookingController.showDetailBooking);
+router.put("/booking/:id/confirm", bookingController.confirmBooking);
+router.put("/booking/:id/reject", bookingController.rejectBooking);
 
 module.exports = router;
