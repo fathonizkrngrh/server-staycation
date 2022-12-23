@@ -6,15 +6,15 @@ const itemController = require("../controllers/item.controller");
 const bookingController = require("../controllers/booking.controller");
 const detailItemController = require("../controllers/detailItem.controller");
 const { upload, uploadMultiple } = require("../middleware/multer");
-const auth = require("../middleware/auth").isLoggedin;
+// const auth = require("../middleware/auth").isLoggedin;
 
+// router.use(auth);
 router.get("/dashboard", adminAuthController.viewDashboard);
 
 // Endpoint Sign In admin
 router.get("/signin", adminAuthController.viewSignIn);
 router.post("/signin", adminAuthController.actionSignin);
 router.get("/signout", adminAuthController.actionSignout);
-router.use(auth);
 
 // Endpoint Category
 router.get("/category", categoryController.viewCategory);

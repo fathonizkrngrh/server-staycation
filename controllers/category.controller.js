@@ -1,39 +1,71 @@
 const Category = require("../models/Category.model");
-const Image = require("../models/Image.model");
-
-const categoryServicesResponse = require("../services/category.service");
 
 module.exports = {
   viewCategory: async (req, res) => {
     try {
-      const adminServiceResponse = await categoryServicesResponse.view(req);
-      return res.render("admin/category/viewCategory", adminServiceResponse);
+      const category = await Category.find();
+      const alertMessage = req.flash("alertMessage");
+      const alertStatus = req.flash("alertStatus");
+      const alert = {
+        message: alertMessage,
+        status: alertStatus,
+      };
+      const title = "Staycation | Category";
+      return res.render("admin/category/viewCategory", {
+        category,
+        alert,
+        title,
+      });
     } catch (err) {
       return res.redirect("/admin/category");
     }
   },
   addCategory: async (req, res) => {
     try {
-      const adminServiceResponse = await categoryServicesResponse.add(req);
-      return res.redirect("/admin/category", adminServiceResponse);
+      const { name } = req.body;
+      await Category.create({ name });
+
+      req.flash("alertMessage", "success add category");
+      req.flash("alertStatus", "success");
+      res.redirect("/admin/category");
     } catch (err) {
-      return res.redirect("/admin/category");
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/category");
     }
   },
   editCategory: async (req, res) => {
     try {
-      const adminServiceResponse = await categoryServicesResponse.edit(req);
-      return res.redirect("/admin/category", adminServiceResponse);
+      const { id, name } = req.body;
+      const findCategory = await Category.findOne({ _id: id });
+
+      findCategory.name = name;
+
+      await findCategory.save();
+
+      req.flash("alertMessage", "success edit category");
+      req.flash("alertStatus", "success");
+      res.redirect("/admin/category");
     } catch (error) {
-      return res.redirect("/admin/category");
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/category");
     }
   },
   deleteCategory: async (req, res) => {
     try {
-      const adminServiceResponse = await categoryServicesResponse.delete(req);
-      return res.redirect("/admin/category", adminServiceResponse);
+      const { id } = req.params;
+      const findCategory = await Category.findOne({ _id: id });
+
+      await findCategory.remove();
+
+      req.flash("alertMessage", "success delete category");
+      req.flash("alertStatus", "success");
+      res.redirect("/admin/category");
     } catch (error) {
-      return res.redirect("/admin/category");
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/category");
     }
   },
 };
