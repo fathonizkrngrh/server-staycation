@@ -14,6 +14,11 @@ const {
 module.exports = {
   landingPage: async (req, res) => {
     try {
+      const mostPicked = await Item.find()
+        .select("_id title imageId country city price unit")
+        .limit(5)
+        .populate({ path: "imageId", select: "_id imageUrl" });
+
       const categories = await Category.find()
         .select("_id name")
         .limit(3)
@@ -45,6 +50,9 @@ module.exports = {
         }
       }
 
+      const traveler = await Traveler.find();
+      const treasure = await Treasure.find();
+      const city = await Item.find();
       //   return apiResponse(status.OK, "OK", "ini landing page", {
       //     message,
       //   });
