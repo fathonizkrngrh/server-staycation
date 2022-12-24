@@ -65,9 +65,13 @@ module.exports = {
         mostPicked,
         categories,
       });
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json(err);
+    } catch (e) {
+      console.log(e);
+      throw apiResponse(
+        e.code || status.INTERNAL_SERVER_ERROR,
+        e.status || "INTERNAL_SERVER_ERROR",
+        e.message
+      );
     }
   },
 };
