@@ -2,18 +2,6 @@ const Users = require("../models/Users.model");
 const bcrypt = require("bcryptjs");
 
 module.exports = {
-  viewDashboard: async (req, res) => {
-    if (req.session.user !== null || req.session.user !== undefined) {
-      return res.render("admin/dashboard/viewDashboard", {
-        title: "Staycation | Dashboard",
-      });
-    } else {
-      return res.redirect("/admin/signin");
-    }
-    // return res.render("admin/dashboard/viewDashboard", {
-    //   title: "Staycation | Dashboard",
-    // });
-  },
   viewSignIn: async (req, res) => {
     try {
       const alertMessage = req.flash("alertMessage");

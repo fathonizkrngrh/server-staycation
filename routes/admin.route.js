@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const adminAuthController = require("../controllers/adminAuth.controller");
+const adminDashboardController = require("../controllers/adminDashboard.controller");
 const categoryController = require("../controllers/category.controller");
 const bankController = require("../controllers/bank.controller");
 const itemController = require("../controllers/item.controller");
@@ -9,7 +10,7 @@ const { upload, uploadMultiple } = require("../middleware/multer");
 // const auth = require("../middleware/auth").isLoggedin;
 
 // router.use(auth);
-router.get("/dashboard", adminAuthController.viewDashboard);
+router.get("/dashboard", adminDashboardController.viewDashboard);
 
 // Endpoint Sign In admin
 router.get("/signin", adminAuthController.viewSignIn);
