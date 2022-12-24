@@ -14,6 +14,7 @@ const itemSchema = new Schema({
   sumBooking: {
     type: Number,
     required: true,
+    default: 0,
   },
   country: {
     type: String,
@@ -31,6 +32,10 @@ const itemSchema = new Schema({
   description: {
     type: String,
     required: true,
+  },
+  unit: {
+    type: String,
+    default: "night",
   },
   categoryId: {
     type: ObjectId,
