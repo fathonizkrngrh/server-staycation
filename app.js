@@ -9,9 +9,12 @@ const flash = require("connect-flash");
 const routes = require("./routes/index");
 // import mongoose
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://127.0.0.1:27017/db_staycation", {
-  useNewUrlParser: true,
-});
+mongoose.connect(
+  "mongodb+srv://staycation:staycation@cluster0.e2adofv.mongodb.net/db_staycation?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+  }
+);
 
 var app = express();
 
