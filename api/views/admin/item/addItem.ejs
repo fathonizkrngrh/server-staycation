@@ -1,0 +1,76 @@
+<div id="add-item" class="tab-pane fade">
+  <div class="card shadow mb-4 mt-t">
+    <div class="card-body">
+      <form action="/admin/item" method="POST" enctype="multipart/form-data">
+        <div class="row g-3">
+          <div class="form-group col-md-6">
+            <label for="title">Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              placeholder="Enter title"
+              name="title"
+              required
+            />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Price">Price</label>
+            <input
+              type="number"
+              class="form-control"
+              id="price"
+              placeholder="Enter price"
+              name="price"
+              required
+            />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="city">City</label>
+            <input
+              type="text"
+              class="form-control"
+              id="city"
+              placeholder="Enter city"
+              name="city"
+              required
+            />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="name">Category</label>
+            <select class="form-select" name="categoryId">
+              <option selected>--- Category ---</option>
+              <% for (let i = 0; i< category.length; i++) { %>
+              <option value="<%= category[i].id %>">
+                <%= category[i].name %>
+              </option>
+              <% } %>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="image">Image</label>
+            <input
+              type="file"
+              class="form-control"
+              id="image"
+              name="image"
+              multiple
+              required
+            />
+          </div>
+          <div class="form-group col-12">
+            <label for="description">Description</label>
+            <textarea
+              name="description"
+              class="form-control"
+              id="description"
+              rows="200"
+            ></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+    </div>
+  </div>
+</div>
