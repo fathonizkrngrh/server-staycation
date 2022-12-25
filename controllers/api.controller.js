@@ -2,8 +2,7 @@ const Item = require("../models/Item.model");
 const Category = require("../models/Category.model");
 const Traveler = require("../models/Booking.model");
 const Treasure = require("../models/Activity.model");
-const fs = require("fs-extra");
-const path = require("path");
+const Bank = require("../models/Bank.model");
 const { StatusCodes: status } = require("http-status-codes");
 const {
   apiResponse,
@@ -23,11 +22,13 @@ module.exports = {
         .select("_id name")
         .limit(3)
         .populate({
+          // populate item from ItemId
           path: "itemId",
           select: "_id title imageId country city isPopular unit",
           sort: { sumBooking: 1 },
           perDocumentLimit: 4,
           populate: {
+            // populate image url from imageId
             path: "imageId",
             select: "_id imageUrl",
             perDocumentLimit: 1,
@@ -53,25 +54,84 @@ module.exports = {
       const traveler = await Traveler.find();
       const treasure = await Treasure.find();
       const city = await Item.find();
-      //   return apiResponse(status.OK, "OK", "ini landing page", {
-      //     message,
-      //   });
-      return res.status(200).json({
-        hero: {
-          travelers: traveler.length,
-          treasures: treasure.length,
-          cities: city.length,
-        },
-        mostPicked,
-        categories,
-      });
+
+      return res.status(status.OK).json(
+        apiResponse(status.OK, "OK", "Welcome to Landing Page", {
+          hero: {
+            travelers: traveler.length,
+            treasures: treasure.length,
+            cities: city.length,
+          },
+          mostPicked,
+          categories,
+        })
+      );
     } catch (e) {
       console.log(e);
-      throw apiResponse(
-        e.code || status.INTERNAL_SERVER_ERROR,
-        e.status || "INTERNAL_SERVER_ERROR",
-        e.message
+      return res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .json(
+          apiResponse(
+            e.code || status.INTERNAL_SERVER_ERROR,
+            e.status || "INTERNAL_SERVER_ERROR",
+            e.message
+          )
+        );
+    }
+  },
+  detailPage: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const item = await Item.findOne({ _id: id })
+        .populate({ path: "imageId", select: "_id imageUrl" })
+        .populate({ path: "activityId", select: "_id name type imageUrl" })
+        .populate({ path: "facilityId", select: "_id name qty imageUrl" });
+
+      const bank = await Bank.find();
+      const testimonial = {
+        id,
+        name,
+        testimoni,
+        rate,
+      };
+
+      return res.status(status.OK).json(
+        apiResponse(status.OK, "OK", "Message", {
+          item,
+          bank,
+          testimonial,
+        })
       );
+    } catch (e) {
+      return res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .json(
+          apiResponse(
+            e.code || status.INTERNAL_SERVER_ERROR,
+            e.status || "INTERNAL_SERVER_ERROR",
+            e.message
+          )
+        );
+    }
+  },
+  tes: async (req, res) => {
+    try {
+      return res.status(status.OK).json(
+        apiResponse(status.OK, "OK", "Message", {
+          data: "data",
+        })
+      );
+    } catch (e) {
+      console.log(e);
+      return res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .json(
+          apiResponse(
+            e.code || status.INTERNAL_SERVER_ERROR,
+            e.status || "INTERNAL_SERVER_ERROR",
+            e.message
+          )
+        );
     }
   },
 };
