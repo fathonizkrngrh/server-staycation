@@ -1,0 +1,2 @@
+multer tidak bisa dibaca jika menggunakan path 'public/images' sehingga perlu menggunakan folder 'tmp' untuk menyimpan file.
+vercel hanya dapat membaca file index.js di dalam folder api, sehingga perlu penyesuaian pada package.json
